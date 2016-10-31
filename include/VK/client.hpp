@@ -2,15 +2,15 @@
 // Created by root on 10/30/16.
 //
 
-#ifndef LIMEGRAM_CLIENT_HPP
-#define LIMEGRAM_CLIENT_HPP
+#ifndef VK_CLIENT_HPP
+#define VK_CLIENT_HPP
 
-#endif //LIMEGRAM_CLIENT_HPP-
+#endif //VK_CLIENT_HPP-
 
 #include <string>
 #include <map>
 
-namespace LimeGram
+namespace VK
 {
     using namespace std;
     class Client
