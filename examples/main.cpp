@@ -3,11 +3,11 @@
 //
 #include <curl/curl.h>
 #include <iostream>
-#include <locale.h>
+//#include <locale.h>
 using namespace std;
 int main ()
 {
-    setlocale(LC_ALL, "Russian");
+    //setlocale(LC_ALL, "Russian");
     CURL *curl;
     CURLcode res;
     long response_code;
@@ -32,16 +32,6 @@ int main ()
         if (res != CURLE_OK) cout << "curl_easy_perform() failed:" << curl_easy_strerror(res) << endl;
         curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
         cout << response_code << endl;
-
-
-
-
-
-
-
-
-
-
 
 
 
