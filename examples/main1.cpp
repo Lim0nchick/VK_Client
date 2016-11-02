@@ -3,18 +3,17 @@
 //
 #include <curl/curl.h>
 #include <iostream>
-#include <locale.h>
+#include <clocale>
 using namespace std;
 int main ()
 {
-    setlocale(LC_ALL, "Russian");
+    setlocale(0, "1251");
     CURL *curl;
     CURLcode res;
     long response_code;
     curl_global_init(CURL_GLOBAL_DEFAULT);
-
     curl = curl_easy_init();
-    curl_easy_setopt(curl, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 5.1; ru; rv:1.9.0.1) Gecko/2008070208");
+    curl_easy_setopt(curl, CURLOPT_USERAGENT, "Mozilla/5.0 (X11; Linux amd64; rv:14.0) Gecko/20100101 Firefox/14.0.1");
     if (curl)
     {
 
@@ -26,7 +25,7 @@ int main ()
         cout << "\n\n\n\n";
 
 
-        curl_easy_setopt(curl, CURLOPT_USERPWD, "[lim0nchick@yandex.ru]:[11797277359LImo]");
+        curl_easy_setopt(curl, CURLOPT_USERPWD, "[Lim0nchick@yandex.ru]:[11797277359LImo]");
         curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);cout << endl;
         res = curl_easy_perform(curl);
         if (res != CURLE_OK) cout << "curl_easy_perform() failed:" << curl_easy_strerror(res) << endl;

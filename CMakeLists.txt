@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5.1)
 
-set(SERVICE "Telegram")
+set(SERVICE "VK")
 
 project(telegram_Client)
 
@@ -10,7 +10,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include/)
 
-add_library(${PROJECT_NAME} STATIC ${CMAKE_CURRENT_SOURCE_DIR}/sources/client.cpp sources/client.cpp tests/tests.cpp include/RSA_key.hpp)
+add_library(${PROJECT_NAME} STATIC ${CMAKE_CURRENT_SOURCE_DIR}/sources/client.cpp sources/client.cpp tests/tests.cpp include/VK/client.hpp)
 
 find_package(OpenSSL REQUIRED)
 find_package(CURL REQUIRED)
