@@ -2,6 +2,7 @@
 // Created by root on 10/30/16.
 //
 
+<<<<<<< HEAD
 #include <iostream>
 #include <curl/curl.h>
 #include "client.hpp"
@@ -40,3 +41,6 @@ namespace VK
         curl_easy_cleanup(curl);
     }
 };
+=======
+#include "../include/VK/client.hpp"
+>>>>>>> 77f10556c6a63f63a3cb59b489af3a596e904884
