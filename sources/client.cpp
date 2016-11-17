@@ -47,7 +47,7 @@ namespace VK
         curl_easy_cleanup(curl);
     };
 
-    auto VK_Client::friend_list() -> void
+    auto VK_Client::friend_list() -> json
     {
         CURL *curl = curl_easy_init();
         if (curl)
@@ -64,6 +64,7 @@ namespace VK
             res = curl_easy_perform(curl);
             if (res == CURLE_OK)
             {
+		//IsJSON(link);
                 json j_result=json::parse(link.c_str());
                 json j_resp = j_result["response"];
                 if(!j_resp.empty())
@@ -73,7 +74,37 @@ namespace VK
                     cout << "count: " << count << endl;
                     if (count)
                     {
-                        
+                        json j_obj = j_resp["items"];
+			for(json::iterator iter = j_obj.begin(); iter != j_obj.end(); iter++)
+			{
+				int j_id = iter.value()["id"];		cout << "id: " << j_id << endl;
+				string j_sort = iter.value()["order"];	cout << "sort by " << j_sort << endl;
+				int j_list_id=iter.value()["list_id"];	cout << "list_id: " << j_list_id << endl;
+				int j_count=iter.value()["count"]; 	cout << "count: " << j_count << endl;
+				int j_offset=iter.value()["offset"]; 	cout << "offset" << j_offset << endl;
+				j_sub_obj j_resp["fields"];
+				for (json::iterator iter1=j_sub_obj.begin; iter1!=j_sub_obj.end(); iter1++)
+				{
+					string j_uid = iter.value()["uid"];  cout << "uid:  " << j_uid << endl;
+					string j_first_name = iter.value()["first_name"];  cout << j_first_name;
+					string j_last_name = iter.value()["last_name"];  cout << " " << j_last_name << endl;
+					string j_nicname = iter.value()["nickname"];  cout << "nickname:  " << j_nickname << endl;
+					string j_sex = iter.value()["sex"];  cout << "sex:  " << j_sex << endl;
+					string j_bdate = iter.value()["bdate"];  cout << "birthdate:  " << j_bdate << endl;
+					string j_city = iter.value()["city"];  cout << "city: " << j_sort << endl;
+					string j_country = iter.value()["contry"];  cout << "country: " << j_country << endl;
+					string j_timezone = iter.value()["timezone"];  cout << "timezone: " << j_timezone << endl;
+					string j_photo = iter.value()["photo"];  cout << "photo:  " << j_photo << endl;
+					string j_photo_medium
+
+
+
+
+
+
+	
+
+			}
                     }
                 }
             }
