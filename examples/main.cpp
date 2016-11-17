@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <map>
-#include "client.hpp"
+#include "VK/client.hpp"
 #include <string>
 
 using namespace std;

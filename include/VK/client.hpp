@@ -2,22 +2,24 @@
 // Created by root on 10/30/16.
 //
 
-#ifndef VK_CLIENT_HPP
-#define VK_CLIENT_HPP
-
-#endif //VK_CLIENT_HPP-
-
 #include <string>
 #include <map>
+#include "json.hpp"
+using namespace std;
 
 namespace VK
 {
-    using namespace std;
-    class Client
+    class VK_Client
     {
     public:
         using dict_t = map<string, string>;
-        Client(dict_t settings);
+
+        VK_Client() {};
+        VK_Client(dict_t settings) : settings_(settings) {};
         auto check_connection() -> bool;
+        auto friend_list() -> void;
+        auto func(char* ptr, size_t size, size_t nmemb, string* link)->size_t;
+    private:
+        dict_t settings_;
     };
 }
