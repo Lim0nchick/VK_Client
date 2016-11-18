@@ -85,40 +85,30 @@ namespace VK
 				j_sub_obj j_resp["fields"];
 				for (json::iterator iter1=j_sub_obj.begin; iter1!=j_sub_obj.end(); iter1++)
 				{
-					string j_uid = iter1.value()["uid"];  cout << "uid:  " << j_uid << endl;
-					string j_first_name = iter1.value()["first_name"];  cout << j_first_name;
-					string j_last_name = iter1.value()["last_name"];  cout << " " << j_last_name << endl;
-					string j_nicname = iter1.value()["nickname"];  cout << "nickname:  " << j_nickname << endl;
-					string j_sex = iter1.value()["sex"];  cout << "sex:  " << j_sex << endl;
-					string j_bdate = iter1.value()["bdate"];  cout << "birthdate:  " << j_bdate << endl;
-					string j_city = iter1.value()["city"];  cout << "city: " << j_sort << endl;
-					string j_country = iter1.value()["contry"];  cout << "country: " << j_country << endl;
-					string j_timezone = iter1.value()["timezone"];  cout << "timezone: " << j_timezone << endl;
-					string j_photo = iter1.value()["photo"];  cout << "photo:  " << j_photo << endl;
-					string j_photo_medium = iter1.value()["photo_medium"]; cout << "med_foto: " << j_photo_medium << endl;
-					string j_photo_big = iter1.value()["photo_big"]; cout << "big_foto" << j_photo_big << endl;
-					string j_dom = iter1.value()["domain"]; cout << "domain: " << j_dom << endl;
-					string j_mob = iter1.value()["has_mobile"]; cout << "mobile: " << j_mob << endl;
-					string j_rate = iter1.value()["rate"]; cout << "rate: " << j_rate << endl;
-					string j_contacts = iter1.value()["contacts"]; cout << "contacts: " << endl;
-					string j_edu = iter1.value()["education"]; cout << "education: " << j_edu << endl;
-				}
-				char[3] j_name_case= iter.value()["name_case"]; cout << "name_case" << j_name_case << endl;
-			}
-			cout << "}" << endl;
-			}
-			else
-			{
-				json j_err = j_result["error"];
-                    		cout << "Error connection: "  << j_err << endl;
-				return nullptr;
-            		}
+					string j_uid = iter.1value()["uid"];  cout << "uid:  " << j_uid << endl;
+					string j_first_name = iter.1value()["first_name"];  cout << j_first_name;
+					string j_last_name = iter.1value()["last_name"];  cout << " " << j_last_name << endl;
+					string j_nicname = iter.1value()["nickname"];  cout << "nickname:  " << j_nickname << endl;
+					string j_sex = iter.1value()["sex"];  cout << "sex:  " << j_sex << endl;
+					string j_bdate = iter.1value()["bdate"];  cout << "birthdate:  " << j_bdate << endl;
+					string j_city = iter.1value()["city"];  cout << "city: " << j_sort << endl;
+					string j_country = iter.1value()["contry"];  cout << "country: " << j_country << endl;
+					string j_timezone = iter.1value()["timezone"];  cout << "timezone: " << j_timezone << endl;
+					string j_photo = iter.1value()["photo"];  cout << "photo:  " << j_photo << endl;
+					string j_photo_medium=iter1.value()["photo_medium"]; 
 
 
+
+
+
+
+	
+
+			}
                     }
                 }
             }
         }
-	curl_easy_cleanup();
+
     }
 }
