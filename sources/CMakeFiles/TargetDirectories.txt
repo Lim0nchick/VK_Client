@@ -1,4 +1,0 @@
-/home/ilya/VK_Client/VK_Client/sources/CMakeFiles/edit_cache.dir
-/home/ilya/VK_Client/VK_Client/sources/CMakeFiles/rebuild_cache.dir
-/home/ilya/VK_Client/VK_Client/sources/CMakeFiles/examples.dir
-/home/ilya/VK_Client/VK_Client/sources/CMakeFiles/VK_Client.dir

@@ -1,1 +1,0 @@
-/usr/bin/c++    -fPIC   CMakeFiles/examples.dir/examples/main.cpp.o  -o examples libVK_Client.a /usr/lib/i386-linux-gnu/libssl.so /usr/lib/i386-linux-gnu/libcrypto.so /usr/lib/i386-linux-gnu/libcurl.so 

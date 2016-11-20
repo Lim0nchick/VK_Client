@@ -17,9 +17,12 @@ int main()
     cin >> access_token;
     VK_Client data({{"token", access_token }});
     data.check_connection();
-    string command;
-    cout << "Write command: ";
-    cin >> command;
+    //string command;
+    //cout << "Write command: ";
+    //cin >> command;
+    data.friend_list();
+
+
     
 
 
