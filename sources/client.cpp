@@ -11,9 +11,6 @@ using namespace nlohmann;
 
 namespace VK
 {
-
-    //string token = "access_token=55c2bf6da06b4b4b2c24cc5a21f291e67404517755e5a43097a6e232c9a2f19db6eab8831845c3ed6abc1";
-
     auto VK_Client::check_connection() -> bool
     {
 
@@ -41,11 +38,9 @@ namespace VK
                 if (response_code >= 200 && response_code < 300)
                     cout << "Connected successfully" << endl;
             }
-
-
         }
         curl_easy_cleanup(curl);
-    };
+    }
 
     auto VK_Client::friend_list() -> json
     {
@@ -59,13 +54,12 @@ namespace VK
             curl_easy_setopt(curl, CURLOPT_POST, 1);
             curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data_to_send.c_str());
             curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, data_to_send.length());
-            //curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, func);
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, func);
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, &link);
             res = curl_easy_perform(curl);
             if (res == CURLE_OK)
             {
-		       // IsJSON(link);
-                json j_result=json::parse(link.c_str());
+		        json j_result=json::parse(link.c_str());
                 json j_resp = j_result["response"];
                 if(!j_resp.empty())
                 {
@@ -75,7 +69,7 @@ namespace VK
                     if (count)
                     {
                         json j_obj = j_resp["items"];
-			            for(json::iterator iter = j_obj.begin(); iter != j_obj.end(); iter++)
+			            for(json::iterator iter = j_obj.begin(); iter != j_obj.end(); ++iter)
 			            {
 				            int j_id = iter.value()["id"];		    cout << "id: " << j_id << endl;
 				            string j_sort = iter.value()["order"];	cout << "sort by " << j_sort << endl;
@@ -83,7 +77,7 @@ namespace VK
 				            int j_count=iter.value()["count"]; 	    cout << "count: " << j_count << endl;
 			            	int j_offset=iter.value()["offset"]; 	cout << "offset" << j_offset << endl;
 		            		json j_sub_obj = j_resp["fields"];
-            				for (json::iterator iter1 = j_sub_obj.begin(); iter1 != j_sub_obj.end(); iter1++)
+            				for (json::iterator iter1 = j_sub_obj.begin(); iter1 != j_sub_obj.end(); ++iter1)
 			            	{
             					string j_uid = iter1.value()["uid"];                cout << "uid:  " << j_uid << endl;
 			            		string j_first_name = iter1.value()["first_name"];  cout << j_first_name;
@@ -113,12 +107,16 @@ namespace VK
                         cout << "Error connection: "  << j_err << endl;
 				        return nullptr;
             		}
-
-
                 }
             }
         }
         curl_easy_cleanup(curl);
-    };
+    }
+
+    auto VK_Client::func(char* ptr, size_t size, size_t nmemb, string* link) -> size_t
+    {
+        *link += ptr;
+        return size*nmemb;
+    }
 }
 
