@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <curl/curl.h>
+#include <exception>
 #include "VK/client.hpp"
 #include "VK/json.hpp"
 using namespace std;
@@ -11,6 +12,7 @@ using namespace nlohmann;
 
 namespace VK
 {
+    string link = "";
     auto VK_Client::check_connection() -> bool
     {
 
@@ -23,12 +25,29 @@ namespace VK
             curl_easy_setopt(curl, CURLOPT_URL, "https://api.vk.com/method/account.getInfo?");
             curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data_to_send.c_str());
             curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, data_to_send.length());
-
             long response_code;
             res = curl_easy_perform(curl);
             if (res == CURLE_OK)
             {
-                long response_code;
+                try
+                {
+                    json j_obj = json::parse(link);
+                    json j_response = j_obj["response"];
+                    if (!j_response.is_null())
+                    {
+                        curl_easy_cleanup(curl);
+                        return true;
+                    }
+
+                }
+                catch (exception & error)
+                {
+                    cout << error.what() << endl;
+                }
+            }
+
+            /*if (res == CURLE_OK)
+            {
                 curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
                 cout << endl;
                 if (response_code >= 300 && response_code < 400)
@@ -37,9 +56,8 @@ namespace VK
                     cout << "Error connection: " << response_code << endl;
                 if (response_code >= 200 && response_code < 300)
                     cout << "Connected successfully" << endl;
-            }
+            }*/
         }
-        curl_easy_cleanup(curl);
     }
 
     auto VK_Client::friend_list() -> json
@@ -49,7 +67,7 @@ namespace VK
         {
             string data_to_send = "extended=1&offset=5&count=4&access_token=" + settings_["token"] + "&v=5.59";
             CURLcode res;
-            string link = "";
+
             curl_easy_setopt(curl, CURLOPT_URL, "https://api.vk.com/method/groups.get?");
             curl_easy_setopt(curl, CURLOPT_POST, 1);
             curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data_to_send.c_str());
@@ -86,7 +104,7 @@ namespace VK
 			            		string j_sex = iter1.value()["sex"];                cout << "sex:  " << j_sex << endl;
                                 string j_bdate = iter1.value()["bdate"];            cout << "birthdate:  " << j_bdate << endl;
             					string j_city = iter1.value()["city"];              cout << "city: " << j_city << endl;
-			            		string j_country = iter1.value()["contry"];         cout << "country: " << j_country << endl;
+			            		string j_country = iter1.value()["country"];         cout << "country: " << j_country << endl;
             					string j_timezone = iter1.value()["timezone"];      cout << "timezone: " << j_timezone << endl;
             					string j_photo = iter1.value()["photo"];            cout << "photo:  " << j_photo << endl;
 			            		string j_photo_medium = iter1.value()["photo_medium"]; cout << "med_foto: " << j_photo_medium << endl;
