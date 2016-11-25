@@ -19,7 +19,7 @@ namespace VK
         VK_Client() {};
         VK_Client(dict_t settings) : settings_(settings) {};
         auto check_connection() -> bool;
-        auto friend_list() -> json;
+        auto friend_list() -> bool;
         static auto func(char* ptr, size_t size, size_t nmemb, string* link) -> size_t;
     private:
         dict_t settings_;
