@@ -19,7 +19,10 @@ namespace VK
         VK_Client() {};
         VK_Client(dict_t settings) : settings_(settings) {};
         auto check_connection() -> bool;
-        auto audio_list() -> json;
+        auto getProfileInfo() -> json;
+        void get_info(const json & account);
+        json VK_Client::feed();
+        void get_feed(const json & account);
         static auto func(char* ptr, size_t size, size_t nmemb, string* link) -> size_t;
     private:
         dict_t settings_;
