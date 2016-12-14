@@ -17,7 +17,7 @@ using namespace nlohmann;
 namespace VK
 {
 
-    mutex mutex;
+    mutex _mutex;
     size_t thread_index = 0;
     
     auto VK_Client::check_connection() -> bool
@@ -92,7 +92,7 @@ namespace VK
         }
     }
 
-    auto VK_Client::feed() -> json
+    auto VK_Client::friends_getOnline() -> json
     {
          CURL *curl = curl_easy_init();
         if (curl)
@@ -100,7 +100,7 @@ namespace VK
             string data_to_send = "access_token=" + settings_["token"] + "&v=5.59";
             CURLcode res;
             string link = "";
-            curl_easy_setopt(curl, CURLOPT_URL, "https://api.vk.com/method/newsfed.get");
+            curl_easy_setopt(curl, CURLOPT_URL, "https://api.vk.com/method/friends.getOnline");
             curl_easy_setopt(curl, CURLOPT_POST, 1L);
             curl_easy_setopt(curl, CURLOPT_POSTFIELDS, data_to_send.c_str());
             curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, data_to_send.length());
@@ -108,21 +108,33 @@ namespace VK
             curl_easy_setopt(curl, CURLOPT_WRITEDATA, link);
             res = curl_easy_perform(curl);
             if (res == CURLE_OK)
+            { 
                 try
                 {
                     json j_result = json::parse(link);
                     json j_response = j_result["response"];
 
-                    if (!j_response.is_null())
+                    json items = response["items"];
+                    for (json::iterator it = items.begin(); it != items.end(); ++it)
                     {
-                        curl_easy_cleanup(curl);
-                        return j_response;
+                        json id = it.value()["user_id"];             
+                        json list_id = it.value()["list_id"]; 
+                        json online_mobile = it.value()["online_mobile"];
+                        json order = it.value()["order"];
+                        json offset = it.value()["offset"];
+                        if (!user_id.is_null() && !list_id.is_null() && !online_mobile.is_null() && !order.is_null() && !offset.is_null())
+                        {
+                            friend_online _friend(user_id, list_id, online_mobile, order, offset.);
+                            friend_list.push_back(_friend);
+                        }
+
                     }
                 }
                 catch (exception & error)
                 {
                     cout << error.what() << endl;
                 }
+            }
             curl_easy_cleanup(curl);
             return true;
         }
@@ -158,13 +170,59 @@ namespace VK
         }
     }
 
-    void get_feed(const json & account)
+    auto VK_Client::get_friend_thread(int _n) -> void
     {
+        n = _n;
+        if (n < 1 && n > thread::hardware_concurrency())
+        {
+            cout << "Неверное кол-во потоков" << endl;
+            return;
+        }
+        string v = "";
+        cout << "Flag: " << endl;
+        cin >> f;
+        if (f != "f" && f != "F" && v != "")
+        {
+            cout << "Error: unknown flag" << endl; 
+            return ;
+        }
+        for (int i = 0; i < n; i++)
+        {
+            vec_thread.push_back(thread(&VK_Client::thread_func,this, i,f));
+        }
+        for (int i = 0; i < n; i++)
+        {
+            if (vec_thread[i].joinable())
+                vec_thread[i].join();
+        }
+        return ;
+}
 
-    }
-    auto VK_Client::func(char* ptr, size_t size, size_t nmemb, string* link) -> size_t
+    auto  VK_Client::thread_func(int _m, string _f) -> bool
     {
-        *link += ptr;
-        return size*nmemb;
+        for (int i = _m; i < friend_list.size(); i = i + n)
+        {
+            lock_guard<mutex> lock(_mutex);
+            if (_f == "f" || _f == "F") 
+            {
+                cout << endl << "№" << i << endl << "thread_id " << this_thread::get_id() << endl;
+            }
+                cout << "USER : "; friend_list[i].PrintFriend();
+                this_thread::sleep_for(chrono::milliseconds(1800));
+        }
+        return true;
+    }
+
+    auto Client::func(char *data, size_t size, size_t nmemb, std::string &buff) -> size_t
+    {
+        int result = 0;
+
+        if (buff.c_str())
+        {
+            buff.append(data, size * nmemb);
+            result = size * nmemb;
+        }
+
+        return result;
     }
 }
